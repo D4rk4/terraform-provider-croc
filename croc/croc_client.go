@@ -21,16 +21,16 @@ const Version string = "2013-02-01"
 type Config struct {
 	client *http.Client
 	api_url string
-	project string
-	access_key string
-	secret_key string	
+	Region string
+	AccessKey string
+	SecretKey string	
 }
 
 
 func (c Config) signRequest(query string) string {
 	u, _ := url.Parse(c.api_url)
 	var string_to_sign string = "GET\n" + strings.Split(u.Host, ":")[0] + "\n" + u.Path + "\n" + query
-	mac := hmac.New(sha256.New, []byte(c.secret_key))
+	mac := hmac.New(sha256.New, []byte(c.SecretKey))
 	mac.Write([]byte(string_to_sign))
 	return base64.StdEncoding.EncodeToString(mac.Sum(nil))
 }
@@ -39,7 +39,7 @@ func (c Config) sendRequest(params map[string]string) {
 	var buffer bytes.Buffer
 	var i int = 0
 	default_params := map[string]string{
-		"AWSAccessKeyId" : c.project + ":" + c.access_key,
+		"AWSAccessKeyId" : c.AccessKey,
 		"SignatureMethod" : SignatureMethod,
 		"SignatureVersion" : SignatureVersion,
 		"Timestamp" : time.Now().UTC().Format(time.RFC3339),
@@ -77,14 +77,14 @@ func (c Config) sendRequest(params map[string]string) {
 	
 }
 
-func newCrocClient(api_url, access_key, secret_key, project string) *Config{
+func newCrocClient(api_url, AccessKey, SecretKey, Region string) *Config{
 	return &Config{
 		client : &http.Client{
 			Timeout: time.Second * 10,
 		},
 		api_url: api_url,
-		project: project,
-		access_key: access_key,
-		secret_key: secret_key,
+		Region: Region,
+		AccessKey: AccessKey,
+		Region: Region,
 	}
 }
