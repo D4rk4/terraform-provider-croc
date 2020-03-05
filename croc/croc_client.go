@@ -19,7 +19,7 @@ const SignatureVersion string = "2"
 const Version string = "2013-02-01"
 
 type Config struct {
-	client *http.Client
+	Client *http.Client
 	api_url string
 	Region string
 	AccessKey string
@@ -79,7 +79,7 @@ func (c Config) sendRequest(params map[string]string) {
 
 func newCrocClient(api_url, AccessKey, SecretKey, Region string) *Config{
 	return &Config{
-		client : &http.Client{
+		Client : &http.Client{
 			Timeout: time.Second * 10,
 		},
 		api_url: api_url,
