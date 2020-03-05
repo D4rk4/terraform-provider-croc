@@ -9,7 +9,7 @@ import (
 func Provider()  terraform.ResourceProvider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
-			"project" : &schema.Schema{
+			"Region" : &schema.Schema{
 				Type: schema.TypeString,
 				Required: true,
 			},
@@ -28,11 +28,11 @@ func Provider()  terraform.ResourceProvider {
 				Optional: true,
 			Default: "https://monitoring.cloud.croc.ru:443/",
 			},
-			"access_key" : &schema.Schema{
+			"AccessKey" : &schema.Schema{
 				Type: schema.TypeString,
 				Required: true,
 			},
-			"secret_key" : &schema.Schema{
+			"SecretKey" : &schema.Schema{
 				Type: schema.TypeString,
 				Required: true,
 			},
@@ -46,9 +46,9 @@ func Provider()  terraform.ResourceProvider {
 
 func providerConfigure(d * schema.ResourceData) (interface{}, error) {
 	config := newCrocClient(d.Get("api_url").(string),
-		d.Get("access_key").(string),
-		d.Get("secret_key").(string),
-		d.Get("project").(string))
+		d.Get("AccessKey").(string),
+		d.Get("SecretKey").(string),
+		d.Get("Region").(string))
 	log.Println("[INFO], Initializing Croc client")
 	return config, nil
 }
